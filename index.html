@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<!--<script type="text/javascript">
+			if(window.location.href == 'http://show08.com/'){
+				window.location.href = 'http://www.show08.com/';
+			}
+		</script>-->
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta name="description" content="王雅萱的web前端个人简历，喜欢的事永远不会过时。">
+		<meta name="keywords" content="web前端">
+		<meta name="author" content="yaya">
+		<meta name="fragment" content="!">
+		<meta name="baidu-site-verification" content="UMMVJZAage" />
+		<meta name="baidu_union_verify" content="db24f0b24d1c080a67b5c526855c875a">
+		<title>Web前端工程师王雅萱简历</title>
+		<link rel="shortcut icon" href="?Anti-stealing-link=img&path=favicon.ico" />
+		<link rel="stylesheet" href="Stylesheets/index.css" />
+		<style>
+               .baniframe{
+               	    width: 100%;
+    height: 100%;
+    border-width: 0px;
+               }
+		</style>
+		<script src='Script/jquery-1.10.2.min.js'></script>
+		<script src="https://cdn.bootcss.com/three.js/r83/three.min.js"></script>
+		<!--[if lte IE 9]>
+		    <script type="text/javascript">
+		        window.location = "https://showcc.github.io/error/"
+		    </script>
+  		<![endif]--> 
+  		<script>
+'use strict';
+
+var _class, _temp, _class2, _temp2, _class3, _temp3;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BackgroundMaterial = (_temp = _class = function (_THREE$RawShaderMater) {
+  _inherits(BackgroundMaterial, _THREE$RawShaderMater);
+
+  function BackgroundMaterial() {
+    _classCallCheck(this, BackgroundMaterial);
+
+    var _this = _possibleConstructorReturn(this, _THREE$RawShaderMater.call(this, BackgroundMaterial.shader));
+
+    _this.resize = function () {
+      _this.uniforms.resolution.value.set(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
+    };
+
+    _this.loop = function (timestamp) {
+      requestAnimationFrame(_this.loop);
+      _this.uniforms.globalTime.value = timestamp / 1000;
+    };
+
+    addEventListener('resize', _this.resize);
+    requestAnimationFrame(_this.loop);
+    return _this;
+  }
+
+  return BackgroundMaterial;
+}(THREE.RawShaderMaterial), _class.shader = {
+  vertexShader: '\n      attribute vec3 position;\n\n      uniform mat4 projectionMatrix;\n      uniform mat4 modelViewMatrix;\n\n      void main() {\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      #define OCTAVES 2\n      #define RGB(r, g, b) vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0)\n\n      uniform vec2 resolution;\n      uniform float globalTime;\n\n      float random(vec2 co) {\n          return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);\n      }\n\n      vec2 rand2(vec2 p) {\n          p = vec2(dot(p, vec2(12.9898,78.233)), dot(p, vec2(26.65125, 83.054543))); \n          return fract(sin(p) * 43758.5453);\n      }\n\n      float rand(vec2 p) {\n          return fract(sin(dot(p.xy ,vec2(54.90898,18.233))) * 4337.5453);\n      }\n\n\n\n      //\n      // Description : Array and textureless GLSL 2D simplex noise function.\n      //      Author : Ian McEwan, Ashima Arts.\n      //  Maintainer : ijm\n      //     Lastmod : 20110822 (ijm)\n      //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.\n      //               Distributed under the MIT License. See LICENSE file.\n      //               https://github.com/ashima/webgl-noise\n      //\n\n      vec3 mod289(vec3 x) {\n        return x - floor(x * (1.0 / 289.0)) * 289.0;\n      }\n\n      vec2 mod289(vec2 x) {\n        return x - floor(x * (1.0 / 289.0)) * 289.0;\n      }\n\n      vec3 permute(vec3 x) {\n        return mod289(((x*34.0)+1.0)*x);\n      }\n\n      float snoise(vec2 v) {\n        const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0\n                            0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)\n                           -0.577350269189626,  // -1.0 + 2.0 * C.x\n                            0.024390243902439); // 1.0 / 41.0\n        vec2 i  = floor(v + dot(v, C.yy) );\n        vec2 x0 = v -   i + dot(i, C.xx);\n\n        vec2 i1;\n        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n        vec4 x12 = x0.xyxy + C.xxzz;\n        x12.xy -= i1;\n\n        i = mod289(i); // Avoid truncation effects in permutation\n        vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))\n          + i.x + vec3(0.0, i1.x, 1.0 ));\n\n        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n        m = m*m ;\n        m = m*m ;\n\n        vec3 x = 2.0 * fract(p * C.www) - 1.0;\n        vec3 h = abs(x) - 0.5;\n        vec3 ox = floor(x + 0.5);\n        vec3 a0 = x - ox;\n\n        m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n\n        vec3 g;\n        g.x  = a0.x  * x0.x  + h.x  * x0.y;\n        g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n        return 130.0 * dot(m, g);\n      }\n\n      // Thanks to andmar1x https://www.shadertoy.com/view/MtB3zW\n      float stars(in vec2 x, float numCells, float size, float br) {\n        vec2 n = x * numCells;\n        vec2 f = floor(n);\n\n        float d = 1.0e10;\n        for (int i = -1; i <= 1; ++i)\n        {\n          for (int j = -1; j <= 1; ++j)\n          {\n            vec2 g = f + vec2(float(i), float(j));\n            g = n - g - rand2(mod(g, numCells)) + rand(g);\n            // Control size\n            g *= 1. / (numCells * size);\n            d = min(d, dot(g, g));\n          }\n        }\n\n        return br * (smoothstep(.95, 1., (1. - sqrt(d))));\n      }\n\n      float fractalNoise(in vec2 coord, in float persistence, in float lacunarity) {    \n          float n = 0.;\n          float frequency = 3.;\n          float amplitude = 2.;\n          for (int o = 0; o < OCTAVES; ++o)\n          {\n              n += amplitude * snoise(coord * frequency);\n              amplitude *= persistence;\n              frequency *= lacunarity;\n          }\n          return n;\n      }\n\n      void main() {\n        vec2 coord = gl_FragCoord.xy / resolution.xy;\n        vec2 starCoord = gl_FragCoord.xy / resolution.yy - vec2(.5, 0);\n        vec3 color1 = RGB(10, 70, 50) * 1.5;\n        vec3 color2 = RGB(50, 0, 40) * 1.1;\n        float dist = distance(coord, vec2(0.5, 0.3)) * 1.5;\n\n        float time = -globalTime / 100.;\n\n        mat2 RotationMatrix = mat2(cos(time), sin(time), -sin(time), cos(time));\n        vec3 starField = stars(starCoord * RotationMatrix, 16., 0.03, 0.8) * vec3(.9, .9, .95);\n             starField += stars(starCoord * RotationMatrix, 40., 0.025, 1.0) * vec3(.9, .9, .95) * max(0.0, fractalNoise(starCoord * RotationMatrix, .5, .2));\n\n        vec3 aurora = RGB(0,255,130) * max(snoise(vec2((coord.x + sin(time)) * 15., coord.x * 40.)) * max((sin(10.0 * (coord.x + 2. * time)) *.1 + 1.26) - 2. * coord.y, 0.), 0.);\n        vec3 aurora2 = RGB(0,235,170) * max(snoise(vec2((.09 * coord.x + sin(time * .5)) * 15., coord.x * 1.)) * max((sin(5.0 * (coord.x + 1.5 * time)) *.1 + 1.28) - 2. * coord.y, 0.), 0.);\n\n        vec3 result = starField + aurora * aurora2.g * 3.5 + aurora2;\n\n        gl_FragColor = vec4(mix(color1, color2, dist), 1.0);\n        gl_FragColor.rgb += result;\n      }\n\n    ',
+  uniforms: {
+    resolution: { value: new THREE.Vector2(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio) },
+    globalTime: { value: performance.now() / 1000 }
+  },
+  side: THREE.BackSide
+}, _temp);
+var MountainMaterial = (_temp2 = _class2 = function (_THREE$ShaderMaterial) {
+  _inherits(MountainMaterial, _THREE$ShaderMaterial);
+
+  function MountainMaterial() {
+    _classCallCheck(this, MountainMaterial);
+
+    return _possibleConstructorReturn(this, _THREE$ShaderMaterial.call(this, MountainMaterial.shader));
+  }
+
+  return MountainMaterial;
+}(THREE.ShaderMaterial), _class2.shader = {
+  vertexShader: '\n      uniform vec3 mvPosition;\n\n      varying vec2 vUv;\n      varying float fogDepth;\n\n      void main() {\n        fogDepth = -mvPosition.z;\n        vUv = uv;\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      varying vec2 vUv;\n\n      #include <fog_pars_fragment>\n\n      float random(vec2 co) {\n          return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);\n      }\n\n      vec2 rand2(vec2 p)\n      {\n          p = vec2(dot(p, vec2(12.9898,78.233)), dot(p, vec2(26.65125, 83.054543))); \n          return fract(sin(p) * 43758.5453);\n      }\n\n      float rand(vec2 p)\n      {\n          return fract(sin(dot(p.xy ,vec2(54.90898,18.233))) * 4337.5453);\n      }\n\n      void main() {\n        float offset = random(vec2(gl_FragCoord.w));\n        vec2 c = vUv;\n        vec2 p = vUv;\n        p *= .3;\n        p.y = p.y * 30. - 4.;\n        p.x = p.x * (80. * offset) + 14.8 * offset;\n        vec2 q = (p - vec2(0.5,0.5)) * 1.;\n        // p = q;\n        vec3 col = vec3(0.);\n\n        float h = max(\n          .0,\n          max(\n            max(\n              abs(fract(p.x)-.5)-.25, \n              3.*(abs(fract(.7*p.x+.4)-.5)-.4) \n            ),\n            max(\n              1.2*(abs(fract(.8*p.x+.6)-.5)-.2), \n              .3*(abs(fract(.5*p.x+.2)-.5)) \n            ) \n          )\n        );\n        float fill = 1.0 - smoothstep(h, h+.001, p.y);\n\n        vec3 col2 = col * min(fill, 2.0);\n\n        gl_FragColor = vec4(col2, fill);\n\n        #ifdef USE_FOG\n          #ifdef USE_LOGDEPTHBUF_EXT\n            float depth = gl_FragDepthEXT / gl_FragCoord.w;\n          #else\n            float depth = gl_FragCoord.z / gl_FragCoord.w;\n          #endif\n          float fogFactor = smoothstep(fogNear, fogFar, depth);\n          gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor, fogFactor);\n        #endif\n      }\n    ',
+  uniforms: THREE.UniformsLib.fog,
+  fog: true,
+  transparent: true
+}, _temp2);
+var TreeMaterial = (_temp3 = _class3 = function (_THREE$RawShaderMater2) {
+  _inherits(TreeMaterial, _THREE$RawShaderMater2);
+
+  function TreeMaterial() {
+    _classCallCheck(this, TreeMaterial);
+
+    var _this3 = _possibleConstructorReturn(this, _THREE$RawShaderMater2.call(this, TreeMaterial.shader));
+
+    _this3.loop = function (timestamp) {
+      requestAnimationFrame(_this3.loop);
+      _this3.uniforms.globalTime.value = timestamp / 1000;
+    };
+
+    requestAnimationFrame(_this3.loop);
+    return _this3;
+  }
+
+  return TreeMaterial;
+}(THREE.RawShaderMaterial), _class3.shader = {
+  vertexShader: '\n      attribute vec3 position;\n      attribute vec2 uv;\n\n      uniform mat4 projectionMatrix;\n      uniform mat4 modelViewMatrix;\n\n      varying vec2 vUv;\n\n      void main() {\n        vUv = uv;\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      #define RGB(r, g, b) vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0)\n\n      uniform float globalTime;\n\n      varying vec2 vUv;\n\n      float treeFill(in float size, in vec2 offset) {\n        vec2 p = vUv;\n        vec2 q = p - vec2(0.5,0.5);\n          vec2 q1 = 100.0 / size * q - offset;\n          float r= mod(-0.8*q1.y,1.-0.06*q1.y) * -0.05*q1.y - .1*q1.y;\n          float fill = (1.0 - smoothstep(r, r+0.001, abs(q1.x+0.5*sin(0.9 * globalTime + p.x * 25.0)*(1.0 + q1.y/13.0)))) * smoothstep(0.0, 0.01, q1.y + 13.0);\n          return fill;\n      }\n\n      vec4 tree(in float size, in vec2 offset) {\n        float glowDist = 0.12;\n        vec3 glowColor = RGB(11, 115, 95);\n        float tree = treeFill(size, offset);\n        float treeGlow = treeFill(size, vec2(offset.x + glowDist, offset.y));\n        return max(vec4(glowColor * (treeGlow - tree), treeGlow), vec4(0.0));\n      }\n\n      void main() {\n        vec2 c = vUv;\n        vec2 p = vUv;\n        p *= 0.3;\n        p.y = p.y * 30.0 - 4.0;\n        p.x = p.x * 30.0;\n        vec2 q = (p - vec2(0.5,0.5)) * 5.5;\n\n        vec4 col = tree(1.0, vec2(-30.0, 7.0));\n              col += tree(1.2, vec2(-15.0, 8.0));\n              col += tree(1.1, vec2(-12.0, 4.0));\n              col += tree(1.0, vec2(-9.0, 6.0));\n              col += tree(1.1, vec2(-10.0, 3.0));\n              col += tree(1.0, vec2(-3.0, 4.0));\n              col += tree(1.1, vec2(-1.5, 5.0));\n              col += tree(1.0, vec2(5.0, 3.0));\n              col += tree(1.3, vec2(12.0, 8.0));\n              col += tree(0.9, vec2(15.0, 7.0));\n              col += tree(1.0, vec2(18.0, 7.0));\n              col += tree(1.1, vec2(26.0, 7.0));\n\n        gl_FragColor = vec4(max(col.rgb * p.y, vec3(0.0)), col.a);\n      }\n    ',
+  uniforms: {
+    globalTime: { value: performance.now() / 1000 }
+  },
+  transparent: true
+}, _temp3);
+
+var Scene = function Scene() {
+  var _this4 = this;
+
+  _classCallCheck(this, Scene);
+
+  this.onWindowResize = function () {
+    _this4.camera.aspect = window.innerWidth / window.innerHeight;
+    _this4.camera.updateProjectionMatrix();
+    _this4.renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
+  this.update = function (timestamp) {
+    requestAnimationFrame(_this4.update);
+    _this4.renderer.render(_this4.scene, _this4.camera);
+  };
+
+  this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
+  this.camera.position.z = 40;
+
+  this.scene = new THREE.Scene();
+  this.scene.fog = new THREE.Fog(0xFF00FF, 40, 180);
+
+  this.renderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  this.renderer.setPixelRatio(window.devicePixelRatio);
+  this.renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(this.renderer.domElement);
+
+  this.clock = new THREE.Clock();
+
+  window.addEventListener('resize', this.onWindowResize);
+
+  var backgroundGeometry = new THREE.SphereGeometry(4000, 32, 15);
+  var backgroundMaterial = new BackgroundMaterial();
+  var background = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+  this.scene.add(background);
+
+  var treeGeometry = new THREE.PlaneGeometry(200, 200, 1, 1);
+  var treeMaterial = new TreeMaterial();
+  this.tree = new THREE.Mesh(treeGeometry, treeMaterial);
+  this.tree.position.z = 0.1;
+  this.scene.add(this.tree);
+
+  MountainMaterial.uniforms = {
+    fogColor: { value: this.scene.fog.color },
+    fogNear: { value: this.scene.fog.near },
+    fogFar: { value: this.scene.fog.far }
+  };
+  var mountainMaterial = new MountainMaterial();
+  var mountainGeometry = new THREE.PlaneGeometry(600, 200, 1, 1);
+  var mountain = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain.position.set(0, 0, 0);
+  var mountain2 = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain2.position.set(0, -2, -26);
+  var mountain3 = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain3.position.set(0, 0, -35);
+  this.scene.add(mountain);
+  this.scene.add(mountain2);
+  this.scene.add(mountain3);
+
+  requestAnimationFrame(this.update);
+};
+
+new Scene();	
+</script>
+
+  		<style type="text/css" media="screen">
+  		.w-guangBox {width: 300px;height: 250px;right: 0!important;position: fixed!important;display: inline-block;bottom: 0!important;z-index: 9999999!important;}
+  		.w-close {position: absolute;width: 40px;height: 40px;top: -40px;right: 0px;background: #fff;border-radius: 50%;cursor: pointer;display: none;}
+  		.w-close img {width: 40px;height: 40px;}
+  		</style>
+	</head>
+
+	<body>
+	
+			
+		<div class="W-head-portrait">
+			<a href="javascript:;" target="_blank">
+				<img src="images/bd8ae33407fd3ef230ed85b2b13e1675_1.jpg" />
+				<div class="My-resume"><span>yaya</span><i>'s</i> resume</div>
+				<div class="clear"></div>
+			</a>
+		</div> 
+		<div class="nav-yuan">
+			<div class="nav-toggle">
+				<div class="icon"></div>
+			</div>
+			<div class="talkbubble">
+				导航
+			</div>
+		</div>
+		
+		<div class="navigation">
+			<ul>
+				<li><a href="javascript:;" class="a-active">首页<span class="span-active"></span></a></li>
+				<li><a href="javascript:;">关于我<span></span></a></li>
+				<li><a href="javascript:;">技能掌握<span></span></a></li>
+				<li><a href="javascript:;">我的经历<span></span></a></li>
+				<li><a href="javascript:;">我的作品<span></span></a></li>
+				<li><a href="javascript:;">联系我<span></span></a></li>
+			<!--	<li><a href="" target="_blank">我的主页<span></span></a></li>-->
+			</ul>
+		</div>
+
+		<div class="W-logo">
+			<img src="images/bd8ae33407fd3ef230ed85b2b13e1675_1.jpg"/>
+			<span class="W-rem">王雅</span>
+			<div class="W-logo-jian">
+				<span class="W-boke">· yaya's resume</span>
+				<span class="W-qq">QQ:1105663645</span>
+			</div>
+			<span class="W-zhan">萱</span>
+			<div class="clear"></div>
+		</div>
+		<div class="nav-zhe"></div>
+
+		<div class="swiper-container swiper-container1">
+			<div class="swiper-wrapper swiper-wrapper1">
+						
+				<div class="swiper-slide swiper-slide1">
+					
+					<div class="w-mask">
+					
+						<div class="slider" style="display: block;"> 
+							<div class="items-group">
+								<div class="item ">
+									<div class="block">
+									<iframe class="baniframe" sandbox="allow-scripts allow-same-origin"  src="new_file.html">
+	
+				</iframe>
+										<span class="circleLight"></span>
+										<div class="text">
+											<h2 style="color: #FFFFFF;">Hello, I'm YAYA</h2>
+											<strong style="color: #FFFFFF;">Love is never out of fashion</strong>
+											<p class="W-p1" style="color: #FFFFFF;">我叫王雅萱</p>
+											<p class="W-p2" style="color: #FFFFFF;">一名前端开发工程师</p>
+											<p class="W-mailbox">1105663645@qq.com</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="wowslider-container">
+						<div class="ws_images">
+							<ul>
+								<li>
+									<a href="javascript:;">
+										<img src="images/6cb8f806e70b760b59eb3011c316a983.jpg" alt="" title=""/>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:;">
+										<img src="images/037618659e99623a801216a4b289282.jpg" alt="" title=""/>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:;">
+										<img src="images/20180315115655551.jpg" alt="" title=""/>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:;">
+										<img src="images/edbf6744ede937055e9a2d66b1bd6f4b.jpg" alt=""  title=""/>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="swiper-slide W-aboutme">
+					
+			<!--		<div class="W-sider-zhe"></div>-->
+						<iframe class="baniframe" sandbox="allow-scripts allow-same-origin"  src="new_file.html">
+	
+				</iframe>
+					<div class="W-introduce">
+						<div class="W-introduce-me">
+							<img src="images/bd8ae33407fd3ef230ed85b2b13e1675_1.jpg" alt="头像"/>
+						</div>
+						<p>
+							您好，我叫王雅萱，坐标陕西-西安。
+							我是计算机信息管理专业的,之前在深圳安视睿企业就职web前端开发一职。一人负责前端所有的工作。地图，音频，layui，网站，手机端，后台管理系统都有经验</p>
+						<p>
+							设计功底的话ps的基本功都会啦，学习能力强，喜欢前端。
+						</p>
+					</div>
+				</div>
+				<div class="swiper-slide W-skill">
+					<!--<div class="W-sider-zhe"></div>-->
+					<iframe class="baniframe" sandbox="allow-scripts allow-same-origin"  src="index3.html">
+	
+				</iframe>
+					<div id="content">
+						<div class="legend">
+							<h1>Skills:</h1>
+							<div class="skills">
+								<ul>
+									<li class="jq">JavaScript</li>
+									<li class="css">CSS3,h5</li>
+								
+									<li class="vue">vue-cil</li>
+									<li class="bootstrap">bootstrap</li>
+									<li class="echarts">echarts</li>
+									
+						
+									<li class="layui">layui</li>
+									<li class="sql">jQuery</li>
+							
+								</ul>
+							</div>
+						</div>
+						<div id="diagram"></div>
+					</div>
+
+					<div class="get">
+						<div class="arc">
+							<span class="text">JavaScript</span>
+							<input type="hidden" class="percent" value="89" />
+							<input type="hidden" class="color" value="#becdd6" />
+						</div>
+						<div class="arc">
+							<span class="text">CSS3,h5</span>
+							<input type="hidden" class="percent" value="95" />
+							<input type="hidden" class="color" value=" #b8c8d4" />
+						</div>
+					
+						<div class="arc">
+							<span class="text">vue-cil</span>
+							<input type="hidden" class="percent" value="88" />
+							<input type="hidden" class="color" value="#7b98ac" />
+						</div>
+						<div class="arc">
+							<span class="text">bootstrap</span>
+							<input type="hidden" class="percent" value="95" />
+							<input type="hidden" class="color" value="#4e748b" />
+						</div>
+						<div class="arc">
+							<span class="text">echarts</span>
+							<input type="hidden" class="percent" value="95" />
+							<input type="hidden" class="color" value=" #33647f" />
+						</div>
+						
+					
+						<div class="arc">
+							<span class="text">layui</span>
+							<input type="hidden" class="percent" value="95" />
+							<input type="hidden" class="color" value="#97daea" />
+						</div>
+						<div class="arc">
+							<span class="text">jQuery</span>
+							<input type="hidden" class="percent" value="100" />
+							<input type="hidden" class="color" value="#60d1e0" />
+						</div>
+						
+						
+					</div>
+				</div>
+				<div class="swiper-slide W-work">
+					<iframe class="baniframe" sandbox="allow-scripts allow-same-origin"  src="texio3.html">
+	
+				</iframe>
+				<div class="W-sider-zhe"></div>
+					<div class="W-work-nr">
+						<div class="W-work-left">						
+							<div class="W-jing-nr">
+								<h5>工作经历</h5>
+								<div class="W-jing-nr-parent">
+									<div class="W-time">
+										<span>经历</span>
+										<i>work</i>
+										<div class="W-zhuan"></div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>	
+							
+							<ul class="W-tim-ul">
+								<li class="W-li-top W-li-top-diyi">
+									<em>2016</em>
+									<i>11月</i>
+									<b></b>
+									<div class="clear"></div>
+									<span></span>
+								</li>
+								<li class="W-li-top ">
+									<em>2017</em>
+									<i>07月</i>
+									<b></b>
+									<div class="clear"></div>
+									<span></span>
+								</li>
+							<li class="W-li-top W-margin-top1">
+									<em>2019</em>
+									<i>03月</i>
+									<b></b>
+									<div class="clear"></div>
+									<span></span>
+								</li>
+							
+							</ul>
+						</div>	
+						<div class="W-work-right">
+							<ul>
+									<li class="W-time-top">
+									<p class="W-jie1">就职于<strong>陕西互健互联科技有限技术公司</strong></p>
+									<p class="W-jie2">
+										<span>&lt;技术部/前端开发工程师&gt;</span>
+										维护和优化，开发公司官网，独立开发前端所有的开发和统筹工作，负责Android和ios的手机端页面的开发及模块的功能实现;
+						
+
+									</p>	
+								</li>
+								<li>
+									<p class="W-jie1">毕业于<strong>西安高新科技学院</strong>，后在西北工业大学就读</p>
+									<p class="W-jie2">
+										<span>&lt;计算机科学与技术&gt;</span>
+										在此期间获得“多迪杯”网站设计大赛全国三等奖，陕西省一等奖。
+									</p>	
+								</li>
+							
+								<li>
+									<p class="W-jie1">就职于<strong>深圳安视睿科技股份有限技术公司</strong></strong></p>
+									<p class="W-jie2">
+										<span>&lt;技术部/前端开发工程师&gt;</span>
+										维护和优化，独立开发公司官网、编写警务数据展示平台、安视睿智慧养老后台管理系统、实时数据大屏互动展示、熟练用运ps，Android和ios混合开发
+										地图定位，音频视频，多频监控以及视屏直播；
+
+
+
+									</p>	
+								</li>
+							
+							</ul>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="swiper-slide W-mywork">
+					
+					<div class="W-sider-zhe"></div>
+					<div class="swiper-container swiper-container2">
+					    <div class="swiper-wrapper">
+					    	
+					        <!--<div class="swiper-slide">
+					        	<div class="W-mywork-left">
+					        		<a href="http://www.wnclub.cn/" target="_blank">
+					        			<div class="W-work1"><span>唯恩优享荟官网</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="W-mywork-right">
+					        		<a href="http://www.szbofu.com/" target="_blank">
+					        			<div class="W-work2"><span>博福生物医药科技官网</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="clear"></div>
+					        </div>-->
+					        <!--<div class="swiper-slide">
+					        	<div class="W-mywork-left">
+					        		<a href="https://showcc.github.io/gai1/GaiLeShi/index.html" target="_blank">
+					        			<div class="W-work3"><span>盖乐仕1(移动端)</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="W-mywork-right">
+					        		<a href="https://showcc.github.io/gai1/GaiLeShi2/index.html" target="_blank">
+					        			<div class="W-work4"><span>盖乐仕2(移动端)</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="clear"></div>
+					        </div>-->
+					        <!--<div class="swiper-slide">
+					        	<div class="W-mywork-left">
+					        		<a href="https://showcc.github.io/gai1/XingBaKe/index.html" target="_blank">
+					        			<div class="W-work5"><span>微信点餐(移动端)</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="W-mywork-right">
+					        		<a href="https://showcc.github.io/gai1/JiaTingHuanYuan/index.html" target="_blank">
+					        			<div class="W-work6"><span>家庭花园(移动端)</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="clear"></div>
+					        </div>-->
+					        	<div class="swiper-slide">
+								<div class="W-mywork-left">
+									<a href="http://pension.anshirui.cn:8082/health/service " target="_blank">
+										
+										<div class="W-work11">
+											<i style="font-size: 14px;position: absolute;top: 40px;left:60px;color: deepskyblue;">账号/密码 admin/admin</i>
+											<span>安视睿智慧养老监控</span>
+											      
+										</div>
+									</a>
+								</div>
+								<div class="W-mywork-right">
+									<a href="http://www.anshirui.cn/index.html" target="_blank">
+										<div class="W-work12"><span>安视睿官网</span></div>
+									</a>
+								</div>
+								<div class="clear"></div>
+
+
+							</div>
+					        <div class="swiper-slide">
+					        	<div class="W-mywork-left">
+					        		<a href=" http://pension.anshirui.cn:8082/health/login" target="_blank">
+					        			<div class="W-work7">
+					        				<i style="font-size: 14px;position: absolute;top: 40px;left:60px;color: deepskyblue;">账号/密码 admin/admin</i>
+										
+					        				<span>后台管理系统</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="W-mywork-right">
+					        		<a href="http://pension.anshirui.cn:8082/health/heart" target="_blank">
+					        			<div class="W-work8">
+					        				<i style="font-size: 14px;position: absolute;top: 40px;left:60px;color: deepskyblue;">账号/密码 18772510331/123456</i>
+										
+					        				<span>生命体征大屏</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="clear"></div>
+					        </div>
+					        <div class="swiper-slide">
+					        	<div class="W-mywork-left">
+					        		<a href="http://www.snhlty.com/" target="_blank">
+					        			<div class="W-work9"><span>健康陕西网</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="W-mywork-right">
+					        		<a href="http://pension.anshirui.cn:8082/health/bigscreen" target="_blank">
+					        			<div class="W-work10"><span>大屏服务系统</span></div>
+					        		</a>
+					        	</div>
+					        	<div class="clear"></div>
+					        </div>
+					        <div class="swiper-slide">
+								<div class="W-mywork-left">
+									
+									<a href="JavaScript:;" target="_blank">
+										<i style="font-size: 14px;position: absolute;top: 40px;left:60px;color: deepskyblue;">账号/密码 admin/admin</i>
+										
+										<div class="W-work13"><span>离床预警</span></div>
+									</a>
+								</div>
+								<div class="W-mywork-right">
+									<a href="http://demo.yonghongtech.com/bi/v7?proc=1&action=viewer&hback=true&db=!884c!!4e1a!!6848!!4f8b!!2f!!516c!!5b89!!884c!!4e1a!!2f!1!667a!!6167!!4e2d!!5fc3!!5927!!5c4f!.db&isAir=false&browserType=chrome
+" target="_blank">
+										<div class="W-work14"><span>警务平台</span></div>
+									</a>
+								</div>
+								<div class="clear"></div>
+							</div>
+						
+						</div>
+					    <div class="swiper-pagination swiper-pagination2"></div>
+					</div>
+				</div>
+				<div class="swiper-slide W-contact-me">
+					<iframe class="baniframe" sandbox="allow-scripts allow-same-origin"  src="texuiao.html">
+	
+				</iframe>
+					<!--<div class="W-sider-zhe"></div>-->
+					<div class="W-lian">
+						<div class="W-lian-right"></div>
+						<div class="clear"></div>
+						<div class="W-lian-bot"></div>
+						<div class="W-lian-zhong">
+							<div class="W-lian-heng">
+								<p class="W-lian-p1">CONTACT</p>
+								<p class="W-lian-p2">FOR ME</p>
+								<div class="clear"></div>
+							</div>
+							<div class="W-lian-nr">
+								<p class="W-lian-p3">
+									<em class="W-lian-e1">灵感</em>
+									<em class="W-lian-e2">代码</em>
+									<em class="W-lian-e3">梦想</em>
+									<em class="W-lian-e4">未来</em>
+								</p>
+								<p class="W-lian-p4">
+									喜欢学习那些未知的事情<br />
+									喜欢克服每个困难成功的感觉<br />
+									喜欢的事情永远不会过时<br />
+									行路有良友，便是捷径<br />
+									期待有机会与您共事！
+								</p>
+								<div class="W-lian-bottom">
+									<!--<a href="https://github.com/showcc" target="_blank">
+										<img src="?Anti-stealing-link=img&path=github.png" alt="">
+										<span class="W-Github">doding</span>
+									</a>-->
+									<!--<a href="javascript:;" title="公众号">
+										<img src="?Anti-stealing-link=img&path=gongzhonghao.png" alt="">
+										<span class="W-qq w-gongz"></span>
+									</a>-->
+									<!--<a href="https://space.bilibili.com/26333590/#/" target="_blank">
+										<img style="width: 22px;height: 22px;" src="?Anti-stealing-link=img&path=CN_bilibili B.png" alt="">
+										<span class="W-Mail">B站up主了解下 哈哈！</span>
+									</a>-->
+									<a href="javascript:;" style="margin-left: ;">
+										<img src="images/qq.png" alt="">
+										<span class="W-qq"></span>
+									</a>
+									<a href="javascript:;">
+										<img src="images/wx.png" alt="">
+										<span class="W-weixin"></span>
+									</a>
+									<!--<a href="http://weibo.com/u/3941909649" target="_blank">
+										<img src="?Anti-stealing-link=img&path=weibo.png" alt="">
+										<span class="W-weibo">Weibo</span>
+									</a>-->
+									<!--<a href="https://www.zhihu.com/people/showccc/activities" target="_blank">    
+										<img src="?Anti-stealing-link=img&path=zhihu.png" alt="">
+										<span class="W-zhihu">Zhihu</span>
+									</a>-->
+									<div class="clear"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--<div class="hhBa" style="color: #fff;font-size: 12px;position: absolute;width: 500px;text-align: center;left:50%; height:15px;bottom: 2%;margin-left: -250px;line-height: 15px">
+						© Rieko | <a href="http://www.miitbeian.gov.cn/" style="color: #fff;" target="_blank" title="">苏ICP备17044739号</a>
+					</div>-->
+				</div>
+			</div>
+			<div class="swiper-pagination swiper-pagination1"></div>
+			<div class="W-yyue">
+				<span class="demoSpan1"></span>
+				<span class="demoSpan2"></span>
+			</div>
+		</div>
+		<div class="Ws-header">
+			<span>YAYA's resume</span>
+		</div>
+		<div class="W-yyue W-s-yyue">
+			<img src="images/bd8ae33407fd3ef230ed85b2b13e1675_1.jpg"/>
+			<span class="demoSpan1"></span>
+			<span class="demoSpan2"></span>
+		</div>
+		<div id="loader-wrapper">
+		    <div id="loader"></div>
+		    <div class="loader-section section-left"></div>
+		    <div class="loader-section section-right"></div>
+		    <div class="load_title"></div>
+		</div>
+	    <!--<div class="box bg-3">
+			<button class="button button--nanuk button--border-thin button--round-s">
+				<span>点</span>
+				<span>击</span>
+				<span>评</span>
+				<span>论</span>
+				<span>我</span>
+			</button>
+		</div>-->
+		<div class="W-page2">
+			<div class="W-yi-bg">
+				<p href="javascript:;" class="Ws-tou" alt="头像">
+					<img src="images/bd8ae33407fd3ef230ed85b2b13e1675_1.jpg"/>
+				</p>
+				<h2 style="color: #FFFFFF;">Hello, I'm yaya</h2>
+				<strong style="color: #FFFFFF;">Love is never out of fashion</strong>
+				<p class="W-p1" style="color: #FFFFFF;">我叫王雅萱</p>
+				<p class="W-p2" style="color: #FFFFFF;">一名前端开发工程师</p>
+				<p class="W-mailbox" style="color: #FFFFFF;">1105663645@qq.com</p>
+				<div class="W-lian-bottom">
+					<!--<a href="" target="_blank">
+						<img src="?Anti-stealing-link=img&path=github.png" alt="">
+						<span class="W-Github">Github</span>
+					</a>-->
+					<!--<a href="javascript:;" title="公众号">
+						<img src="?Anti-stealing-link=img&path=gongzhonghao.png" alt="">
+						<span class="W-qq w-gongz"></span>
+					</a>
+					<a href="https://space.bilibili.com/26333590/#/"  target="_blank">
+						<img style="width: 22px;height: 22px;" src="?Anti-stealing-link=img&path=CN_bilibili B.png" alt="">
+						<span class="W-Mail">B站up主了解下 哈哈！</span>
+					</a>-->
+					<a href="javascript:;">
+						<img src="images/qq.png" alt="">
+						<span class="W-qq"></span>
+					</a>
+					<a href="javascript:;">
+						<img src="images/wx.png" alt="">
+						<span class="W-weixin"></span>
+					</a>
+					<!--<a href="http://weibo.com/u/3941909649" target="_blank">
+						<img src="?Anti-stealing-link=img&path=weibo.png" alt="">
+						<span class="W-weibo">Weibo</span>
+					</a>
+					<a href="https://www.zhihu.com/people/showccc/activities" target="_blank">    
+						<img src="?Anti-stealing-link=img&path=zhihu.png" alt="">
+						<span class="W-zhihu">Zhihu</span>
+					</a>-->
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="Ws-me">
+				<div class="Ws-me-title">
+					<h3>关于我</h3>
+					<i></i>
+				</div>
+				<p>
+					您好，我叫王雅萱，坐标陕西-西安。
+							我是计算机信息管理专业的,之前在深圳安视睿企业就职web前端开发一职。一人负责前端所有的工作。地图，音频，layui，网站，手机端，后台管理系统都有经验</p>
+						<p>
+							设计功底的话ps的基本功都会啦，学习能力强，喜欢前端。
+				</p>
+		
+			</div>
+	
+			<div class="Ws-ji">
+				<div class="Ws-me-title">
+					<h3>技能掌握</h3>
+					<i></i>
+				</div>
+				<p>
+					1.精通HTML5、CSS3、javascript、AJAX等技术，能够手写符合W3C标准的页面代码，精确还原设计图，兼容多种浏览器和手机终端；<br>
+2.精通JS与jQuery，以及熟练使用Layui,bootstrap,vue等框架，有相关开发项目和经验。<br>
+4.熟练PC端和移动端的布局以及常用开发技巧，熟练使用代码版本管理工具GIT、Coding等。<br>
+5.熟练使用PS工具，精确切图，以及简单的设计制作；<br>
+6.了解JAVA，具有良好的代码风格和注释习惯。 <br>
+7.参与软件开发全流程，负责前端全部开发工作，理解mvvm框架，熟练使用webpack等前端构建工具；<br>
+
+</p>
+				<div class="Ws-tu">
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="90%" >
+							</div>
+						</div>
+					</div>
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="95%" >
+							</div>
+						</div>
+					</div>
+					
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="70%" >
+							</div>
+						</div>
+					</div>
+					
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="90%" >
+							</div>
+						</div>
+					</div>
+					
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="90%" >
+							</div>
+						</div>
+					</div>
+					
+					<div class="Ws-PHOTOSHOP">
+						<em></em>
+						<div class="Ws-ph">
+							<div class="Ws-ph-f" data-percentage="95%" >
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="Ws-jing">
+				<div class="Ws-me-title">
+					<h3>工作经历</h3>
+					<i></i>
+				</div>
+				<div class="Ws-jing-box">
+					<ul>
+						<li>
+							<div class="Ws-time">
+								<img src="images/单选-fill.png"/>
+								<span>2016年/11月–2017年 /05月初</span>
+							</div>
+							<div class="Ws-left-kong"></div>
+							<div class="Ws-gs">
+								<strong>就职于陕西互健互联科技有限技术公司</strong>
+								<em>技术部/前端工程师</em>
+								<p>
+									维护和优化，开发公司官网，独立开发前端所有的开发和统筹工作，负责Android和ios的手机端页面的开发及模块的功能实现;
+								</p>
+							</div>
+						</li>
+						<li>
+							<div class="Ws-time">
+								<img src="images/单选-fill.png"/>
+								<span>2017年/07月</span>
+							</div>
+							<div class="Ws-left-kong"></div>
+							<div class="Ws-gs">
+								<strong>毕业于西安高新科技学院，后在西北工业大学就读</strong>
+								<em>计算机科学与技术</em>
+								<p>
+								在此期间获得“多迪杯”网站设计大赛全国三等奖，陕西省一等奖。
+								</p>
+							</div>
+						</li>
+						<li>
+							 <div class="Ws-time">
+								<img src="images/单选-fill.png"/>
+								<span>2017年/08月–2019 年/03月</span>
+							</div>
+							<div class="Ws-left-kong"></div>
+							<div class="Ws-gs">
+								<strong>就职于深圳安视睿科技股份有限技术公司</strong>
+								<em>技术部/前端工程师</em>
+								<p>
+								维护和优化，独立开发公司官网、编写警务数据展示平台、安视睿智慧养老后台管理系统、实时数据大屏互动展示、熟练用运ps，Android和ios混合开发 地图定位，音频视频，多频监控以及视屏直播；
+								</p>
+							</div> 
+						</li>
+					</ul>
+				</div>
+			</div>
+		
+			<div class="Ws-zuo">
+				<div class="Ws-me-title">
+					<h3>我的作品</h3>
+					<i></i>
+				</div>
+				<div class="swiper-container swiper-container3">
+				    <div class="swiper-wrapper">
+				        <div class="swiper-slide swiper-slide1">
+				        	<a href="http://pension.anshirui.cn:8082/health/login" target="_blank">后台管理系统(密码/账号 admin)</a>
+				        </div>
+				        <div class="swiper-slide swiper-slide2">
+				        	<a href="http://pension.anshirui.cn:8082/health/heart" target="_blank">生命体征大屏(密码/账号 18772510331/123456
+)</a>
+				        </div>
+				        <div class="swiper-slide swiper-slide3">
+				        	<a href="http://pension.anshirui.cn:8082/health/bigscreen" target="_blank">大屏服务系统</a>
+				        </div>
+				        <div class="swiper-slide swiper-slide4">
+				        	<a href="http://pension.anshirui.cn:8082/health/service" target="_blank">智慧养老系统</a>
+				        </div>
+				        <div class="swiper-slide swiper-slide5">
+				        	<a href="http://www.anshirui.cn/index.html" target="_blank">安视睿官网</a>
+				        </div>
+				        
+				        <div class="swiper-slide swiper-slide7">
+				        	<a href="javascript:;" target="_blank">离床预警</a>
+				        </div>
+				      
+				        <div class="swiper-slide swiper-slide10">
+				        	<a href="http://www.snhlty.com/" target="_blank">健康陕西官网</a>
+				        </div>
+				    </div>		    
+				    <div class="swiper-pagination swiper-pagination3"></div>
+				</div>
+			</div>
+		
+			<div class="Ws-lianxi">
+				<div class="Ws-me-title">
+					
+					<h3>前端的路途遥远却充满惊喜<br>
+						<strong style="color: red;">期待有机会与你共事</strong></h3>
+						<br />
+					<!--<i></i>-->
+				</div>
+			</div>	
+			
+			<!--<div class="Ws-hui">
+				    <p>期待与你们一起共事</p>
+			</div>-->
+		</div>
+		<div class="W-pinglun">
+			<!--<div class="box bg-2">
+				<button class="W-ggb button button--aylen button--border-thin button--round-s">
+					关闭
+				</button>
+			</div>-->
+			<!--PC版-->
+			<!--<div id="SOHUCS" sid="请将此处替换为配置SourceID的语句"  class="Ws-p-1"></div>
+			<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+			<script type="text/javascript">
+				window.changyan.api.config({
+					appid: 'cyta5NnD0',
+					conf: '91f9efb5bffadfdd35e0ded3d848081e'
+				});
+			</script>-->
+			<!--<style type="text/css">
+				#SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w .service-wrap-w, #SOHUCS #SOHU_MAIN .module-cmt-footer .section-service-w .service-wrap-w a {display: none!important;}
+				#SOHUCS #SOHU_MAIN .module-hot-topic {display: none!important;}
+			</style>-->
+	
+		</div>
+		
+		<!--<div class="w-guangBox">
+			<div class="guang" style="" id=""></div>
+			<div class="w-close" title="关闭广告"><img src="?Anti-stealing-link=img&path=w-close.png"></div>
+		</div>-->
+		
+		
+		<script src='Script/in.js'></script>
+		<script src='Script/changyan.js'></script>
+		<script src='Script/inded.js'></script>
+
+		<!-- <script type="text/javascript">
+		    /*20:3 创建于 2017/10/13*/
+		    var cpro_id = "u3111938";
+		</script>
+		<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/cm.js"></script> -->
+                
+		<script type="text/javascript">
+		    (function() {
+		        var s = "_" + Math.random().toString(36).slice(2);
+		        document.querySelector('.guang').id = s;
+		        (window.slotbydup = window.slotbydup || []).push({
+		            id: "u3528163",
+		            container: s
+		        });
+		    })();
+		    window.onload = function (){
+		    	(function close(){
+			    	if(document.getElementsByClassName('guang')[0].children[0].nodeName == 'IFRAME'){ 
+							document.getElementsByClassName('w-close')[0].style.display = 'block';
+							return false;
+			    		}else {
+			    			close()
+			    		}
+		    	})();
+		    	document.getElementsByClassName('w-close')[0].onclick = function(){
+		    		document.getElementsByClassName('w-guangBox')[0].style.display = 'none';
+		    	}
+		    }
+		</script>
+		<!-- 多条广告如下脚本只需引入一次 -->
+		<script type="text/javascript" src="//cpro.baidustatic.com/cpro/ui/c.js" async="async" defer="defer" ></script>
+		<!-- <script type="text/javascript">
+		    /*960*90 创建于 2017/10/13*/
+		    var cpro_id = "u3111841";
+		</script>
+		<script type="text/javascript" src="http://cpro.baidustatic.com/cpro/ui/c.js"></script> -->
+	</body>
+</html>
